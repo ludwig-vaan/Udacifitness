@@ -1,24 +1,21 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Platform } from 'react-native';
 import AddEntry from './components/AddEntry';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import reducer from './reducers';
 import History from './components/History';
-import {
-  TabNavigator,
-  StackNavigator,
-  DrawerNavigator,
-  createMaterialTopTabNavigator,
-  createBottomTabNavigator,
-} from 'react-navigation';
+import { createBottomTabNavigator } from 'react-navigation';
+import { purple, white } from './utils/colors';
 import { FontAwesome, Ionicons } from '@expo/vector-icons';
+
 import styled from 'styled-components/native';
 
 const store = createStore(
   reducer /* preloadedState, */,
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 );
+
 // exemple styledComponents
 // const CenterView = styled.View`
 //   flex: 1;
@@ -27,56 +24,53 @@ const store = createStore(
 //   background: #333;
 // `;
 
-const Home = () => (
-  <View>
-    <Text>HOME</Text>
-  </View>
-);
-const Dashboard = () => (
-  <View>
-    <Text>Dashboard</Text>
-  </View>
-);
-
-// const Tabs = createBottomTabNavigator(
-//   {
-//     Home: {
-//       screen: Home,
-//     },
-//     Dashboard: {
-//       screen: Dashboard,
-//     },
-//   },
-//   {
-//     navigationOptions: ({ navigation }) => ({
-//       tabBarIcon: () => {
-//         const { routeName } = navigation.state;
-//         // You can return any component that you like here! We usually use an
-//         // icon component from react-native-vector-icons
-//         return routeName === 'Home' ? (
-//           <FontAwesome name="home" size={30} color="black" />
-//         ) : (
-//           <FontAwesome name="dashboard" size={30} color="black" />
-//         );
-//       },
-//     }),
-//   }
+// const Home = () => (
+//   <View>
+//     <Text>HOME</Text>
+//   </View>
+// );
+// const Dashboard = () => (
+//   <View>
+//     <Text>Dashboard</Text>
+//   </View>
 // );
 
-const Tabs = TabNavigator({
-  Home: {
-    screen: Home,
-    navigationOptions: return {
-      tabBarIcon: () => (<FontAwesome name='home' size={30} color='black' />)
-    },
+const Tabs = createBottomTabNavigator(
+  {
+    History: History,
+    AddEntry: AddEntry,
   },
-  Dashboard:{
-    screen: Dashboard,
-    navigationOptions: return  {
-      tabBarIcon: () => <FontAwesome name="dashboard" size={30} color='black' />)
-    }
+  {
+    navigationOptions: ({ navigation }) => ({
+      header: null,
+      tabBarIcon: ({ tintColor }) => {
+        const { routeName } = navigation.state;
+        // You can return any component that you like here! We usually use an
+        // icon component from react-native-vector-icons
+        return routeName === 'History' ? (
+          <Ionicons name="ios-bookmarks" size={30} color={tintColor} />
+        ) : (
+          <FontAwesome name="plus-square" size={30} color={tintColor} />
+        );
+      },
+    }),
+    tabBarOptions: {
+      showIcon: true,
+      activeTintColor: Platform.OS === 'ios' ? white : purple,
+      style: {
+        height: 56,
+        backgroundColor: Platform.OS === 'ios' ? purple : white,
+        shadowColor: 'rgba(0, 0, 0, 0.24)',
+        shadowOffset: {
+          width: 0,
+          height: 3,
+        },
+        shadowRadius: 6,
+        shadowOpacity: 1,
+      },
+    },
   }
-})
+);
 
 export default class App extends React.Component {
   render() {
