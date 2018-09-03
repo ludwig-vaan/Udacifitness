@@ -96,14 +96,23 @@ const MainNavigator = createStackNavigator({
       header: null,
     },
   },
+  // EntryDetail: {
+  //   screen: EntryDetail,
+  //   navigationOptions: {
+  //     headerTintColor: white,
+  //     headerStyle: {
+  //       backgroundColor: purple,
+  //     },
+  //   },
+  // },
   EntryDetail: {
     screen: EntryDetail,
-    navigationOptions: ({ navigation }) => ({
+    navigationOptions: {
       headerTintColor: white,
       headerStyle: {
         backgroundColor: purple,
       },
-    }),
+    },
   },
 });
 
