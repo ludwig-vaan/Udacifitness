@@ -1,11 +1,19 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, Text } from 'react-native';
 import AddEntry from './components/AddEntry';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import reducer from './reducers';
 import History from './components/History';
-// import styled from 'styled-components/native';
+import {
+  TabNavigator,
+  StackNavigator,
+  DrawerNavigator,
+  createMaterialTopTabNavigator,
+  createBottomTabNavigator,
+} from 'react-navigation';
+import { FontAwesome, Ionicons } from '@expo/vector-icons';
+import styled from 'styled-components/native';
 
 const store = createStore(
   reducer /* preloadedState, */,
@@ -19,13 +27,65 @@ const store = createStore(
 //   background: #333;
 // `;
 
+const Home = () => (
+  <View>
+    <Text>HOME</Text>
+  </View>
+);
+const Dashboard = () => (
+  <View>
+    <Text>Dashboard</Text>
+  </View>
+);
+
+// const Tabs = createBottomTabNavigator(
+//   {
+//     Home: {
+//       screen: Home,
+//     },
+//     Dashboard: {
+//       screen: Dashboard,
+//     },
+//   },
+//   {
+//     navigationOptions: ({ navigation }) => ({
+//       tabBarIcon: () => {
+//         const { routeName } = navigation.state;
+//         // You can return any component that you like here! We usually use an
+//         // icon component from react-native-vector-icons
+//         return routeName === 'Home' ? (
+//           <FontAwesome name="home" size={30} color="black" />
+//         ) : (
+//           <FontAwesome name="dashboard" size={30} color="black" />
+//         );
+//       },
+//     }),
+//   }
+// );
+
+const Tabs = TabNavigator({
+  Home: {
+    screen: Home,
+    navigationOptions: return {
+      tabBarIcon: () => (<FontAwesome name='home' size={30} color='black' />)
+    },
+  },
+  Dashboard:{
+    screen: Dashboard,
+    navigationOptions: return  {
+      tabBarIcon: () => <FontAwesome name="dashboard" size={30} color='black' />)
+    }
+  }
+})
+
 export default class App extends React.Component {
   render() {
     return (
       <Provider store={store}>
         <View style={{ flex: 1 }}>
           <View style={{ height: 20 }} />
-          <History />
+          <Tabs />
+          {/* <History /> */}
           {/* <AddEntry /> */}
         </View>
       </Provider>
