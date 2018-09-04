@@ -21,6 +21,8 @@ import { connect } from 'react-redux';
 import { addEntry } from '../actions';
 import { white, purple } from '../utils/colors';
 
+import { NavigationActions } from 'react-navigation';
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -127,6 +129,7 @@ class AddEntry extends Component {
       eat: 0,
     }));
     // navigate to home
+    this.toHome();
 
     // save to 'db'
     submitEntry(key, entry);
@@ -141,9 +144,17 @@ class AddEntry extends Component {
     this.props.dispatch(addEntry({ [key]: getDailyReminderValue() }));
 
     // navigate to home
-
+    this.toHome();
     // save to 'db'
     removeEntry(key);
+  };
+
+  toHome = () => {
+    this.props.navigation.dispatch(
+      NavigationActions.back({
+        key: 'AddEntry',
+      })
+    );
   };
 
   render() {
