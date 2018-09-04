@@ -10,6 +10,8 @@ import {
   getMetricMetaInfo,
   timeToString,
   getDailyReminderValue,
+  clearLocalNotification,
+  setLocalNotification,
 } from '../utils/helpers';
 import UdaciSlider from './UdaciSlider';
 import UdaciSteppers from './UdaciSteppers';
@@ -20,7 +22,6 @@ import { submitEntry, removeEntry } from '../utils/api';
 import { connect } from 'react-redux';
 import { addEntry } from '../actions';
 import { white, purple } from '../utils/colors';
-
 import { NavigationActions } from 'react-navigation';
 
 const styles = StyleSheet.create({
@@ -135,6 +136,7 @@ class AddEntry extends Component {
     submitEntry(key, entry);
 
     // clearn local notification
+    clearLocalNotification().then(setLocalNotification);
   };
 
   reset = () => {
