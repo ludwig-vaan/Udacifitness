@@ -13,8 +13,9 @@ import { purple, white } from './utils/colors';
 import { FontAwesome, Ionicons } from '@expo/vector-icons';
 import { Constants } from 'expo';
 import EntryDetail from './components/EntryDetail';
+import Live from './components/Live';
 
-import styled from 'styled-components/native';
+// import styled from 'styled-components/native';
 
 const store = createStore(
   reducer /* preloadedState, */,
@@ -44,6 +45,7 @@ const Tabs = createBottomTabNavigator(
   {
     History: History,
     AddEntry: AddEntry,
+    Live: Live,
   },
   {
     navigationOptions: ({ navigation }) => ({
@@ -52,11 +54,25 @@ const Tabs = createBottomTabNavigator(
         const { routeName } = navigation.state;
         // You can return any component that you like here! We usually use an
         // icon component from react-native-vector-icons
-        return routeName === 'History' ? (
-          <Ionicons name="ios-bookmarks" size={30} color={tintColor} />
-        ) : (
-          <FontAwesome name="plus-square" size={30} color={tintColor} />
-        );
+        switch (routeName) {
+          case 'History':
+            return (
+              <Ionicons name="ios-bookmarks" size={30} color={tintColor} />
+            );
+
+          case 'AddEntry':
+            return (
+              <FontAwesome name="plus-square" size={30} color={tintColor} />
+            );
+          case 'Live':
+            return (
+              <Ionicons name="ios-speedometer" size={30} color={tintColor} />
+            );
+          default:
+            return <Ionicons name="question" size={30} color={tintColor} />;
+
+            break;
+        }
       },
     }),
     tabBarOptions: {
